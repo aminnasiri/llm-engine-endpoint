@@ -64,25 +64,6 @@ async fn hello_world() -> &'static str {
     "Hello, world!"
 }
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let Ok(api_token) = std::env::var("HF_TOKEN") else {
-        return Err(anyhow::anyhow!("Error getting HF_TOKEN env var"))
-    };
-    let state = initialise_model(api_token)?;
-
-    let router = Router::new()
-        .route("/", get(hello_world))
-        .route("/prompt", post(run_pipeline))
-        .with_state(state);
-
-    let tcp_listener = tokio::net::TcpListener::bind("127.0.0.1:8000").await.unwrap();
-
-    axum::serve(tcp_listener, router).await.unwrap();
-
-    Ok(())
-}
-
 async fn run_pipeline(
     State(state): State<AppState>,
     Json(Prompt { prompt }): Json<Prompt>,
@@ -238,7 +219,8 @@ where
         serde_json::Value::Object(obj) => Ok(obj
             .values()
             .filter_map(|v| v.as_str().map(ToString::to_string))
-            .collect::<HashSet<String>>()),
+            .collect::<HashSet<String>>()
+        ),
         _ => Err(serde::de::Error::custom(
             "Expected an object for weight_map",
         )),
@@ -260,4 +242,23 @@ pub fn hub_load_safetensors(
         .collect();
 
     Ok(pathbufs)
+}
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let Ok(api_token) = std::env::var("HF_TOKEN") else {
+        return Err(anyhow::anyhow!("Error getting HF_TOKEN env var"))
+    };
+    let state = initialise_model(api_token)?;
+
+    let router = Router::new()
+        .route("/", get(hello_world))
+        .route("/prompt", post(run_pipeline))
+        .with_state(state);
+
+    let tcp_listener = tokio::net::TcpListener::bind("127.0.0.1:8000").await.unwrap();
+
+    axum::serve(tcp_listener, router).await.unwrap();
+
+    Ok(())
 }
