@@ -46,5 +46,5 @@ pub async fn run_completions(
     Json(request): Json<CompletionsRequest>) -> impl IntoResponse {
 
     let ai_gen = TextGeneration::from(state);
-    ai_gen.run(String::from(request.prompt.clone()), 20)
+    ai_gen.run(String::from(request.prompt.clone()), 50)
 }
