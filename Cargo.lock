@@ -1543,7 +1543,6 @@ dependencies = [
  "anyhow",
  "axum 0.7.5",
  "candle-core",
- "candle-kernels",
  "candle-nn",
  "candle-transformers",
  "core-graphics-types",
