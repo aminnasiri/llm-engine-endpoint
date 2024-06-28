@@ -1,6 +1,6 @@
 [package]
 name = "llm-engine-service"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 publish = false
 
@@ -8,9 +8,10 @@ publish = false
 anyhow = "1.0.86"
 axum = "0.7.5"
 
-candle-core = {version =  "0.5.1"}
-candle-nn = {version =  "0.5.1"}
-candle-transformers = {version =  "0.5.1" }
+candle-kernels = { version = "0.5.1" }
+candle-core = { version = "0.5.1" }
+candle-nn = { version = "0.5.1" }
+candle-transformers = { version = "0.5.1" }
 
 hf-hub = "0.3.2"
 serde = { version = "1.0.203", features = ["derive"] }
