@@ -1546,6 +1546,7 @@ dependencies = [
  "candle-nn",
  "candle-transformers",
  "core-graphics-types",
+ "cudarc",
  "hf-hub",
  "serde",
  "serde_json",
