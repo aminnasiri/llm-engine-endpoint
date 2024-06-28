@@ -3,3 +3,4 @@
 Secrets*.toml
 /.idea
 *.iml
+**.DS_Store**
