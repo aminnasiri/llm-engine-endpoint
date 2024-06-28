@@ -27,7 +27,7 @@ core-graphics-types = "0.1.3"
 
 [features]
 default = ["candle-core/default", "candle-nn/default", "candle-transformers/default"]
-cuda = ["candle-core/cuda", "candle-nn/cuda", "candle-transformers/cuda", "cudarc/cuda-12010"]
+cuda = ["candle-core/cuda", "candle-nn/cuda", "candle-transformers/cuda", "candle-core/cudarc", "cudarc"]
 cudnn = ["candle-core/cudnn", "cudarc/cudnn"]
 accelerate = ["candle-core/accelerate", "candle-nn/accelerate", "candle-transformers/accelerate"]
 mkl = ["candle-core/mkl", "candle-nn/mkl", "candle-transformers/mkl"]
