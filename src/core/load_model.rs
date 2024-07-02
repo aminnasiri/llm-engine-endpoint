@@ -87,7 +87,7 @@ pub fn initialise_model(token: String) -> anyhow::Result<AppState> {
         attention_bias: false,
         vocab_size: 256000,
         hidden_act: Option::from(Activation::Gelu),
-        hidden_activation: Option::from(Activation::Gelu),
+        hidden_activation: None,
         hidden_size: 3072,
         intermediate_size: 24576,
         num_hidden_layers: 28,
