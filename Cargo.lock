@@ -1270,6 +1270,7 @@ dependencies = [
  "candle-core",
  "candle-nn",
  "candle-transformers",
+ "cudarc",
  "hf-hub",
  "serde",
  "serde_json",
