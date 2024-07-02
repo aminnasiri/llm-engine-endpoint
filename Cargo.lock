@@ -341,7 +341,7 @@ dependencies = [
  "byteorder",
  "candle-kernels",
  "candle-metal-kernels",
- "cudarc",
+ "cudarc 0.11.7 (registry+https://github.com/rust-lang/crates.io-index)",
  "gemm",
  "half",
  "intel-mkl-src",
@@ -625,6 +625,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "56ee2a3fbbd981e1c7ea73cc2af136e754eb22d17436de37155227ee4dbe0cf4"
 dependencies = [
  "half",
+ "libloading",
+]
+
+[[package]]
+name = "cudarc"
+version = "0.11.7"
+source = "git+https://github.com/coreylowman/cudarc.git#edb077975f4deb6056b126b511c97cb151b9d8c1"
+dependencies = [
  "libloading",
 ]
 
@@ -1546,7 +1554,7 @@ dependencies = [
  "candle-nn",
  "candle-transformers",
  "core-graphics-types",
- "cudarc",
+ "cudarc 0.11.7 (git+https://github.com/coreylowman/cudarc.git)",
  "hf-hub",
  "serde",
  "serde_json",
