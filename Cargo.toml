@@ -11,7 +11,8 @@ axum = "0.7.5"
 candle-core = { version = "0.5.1" }
 candle-nn = { version = "0.5.1" }
 candle-transformers = { version = "0.5.1" }
-cudarc = {git = "https://github.com/coreylowman/cudarc.git", optional = true }
+bindgen_cuda = { version = "0.1.1", optional = true }
+#cudarc = {git = "https://github.com/coreylowman/cudarc.git", optional = true }
 
 hf-hub = "0.3.2"
 serde = { version = "1.0.203", features = ["derive"] }
@@ -22,15 +23,15 @@ uuid = { version = "1.8.0", features = ["serde", "v4"] }
 tower-http = { version = "0.5.2", features = ["trace"] }
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
-core-graphics-types = {version = "0.1.3", optional = true}
+#core-graphics-types = {version = "0.1.3", optional = true}
 
 [features]
 default = ["candle-core/default", "candle-nn/default", "candle-transformers/default"]
-cuda = ["candle-core/cuda", "candle-nn/cuda", "candle-transformers/cuda", "candle-core/cudarc", "cudarc"]
-cudnn = ["candle-core/cudnn", "cudarc/cudnn"]
+cuda = ["candle-core/cuda", "candle-nn/cuda", "candle-transformers/cuda", "dep:bindgen_cuda"]
+cudnn = ["candle-core/cudnn"]
 accelerate = ["candle-core/accelerate", "candle-nn/accelerate", "candle-transformers/accelerate"]
 mkl = ["candle-core/mkl", "candle-nn/mkl", "candle-transformers/mkl"]
-metal = ["candle-core/metal", "candle-nn/metal", "candle-transformers/metal", "core-graphics-types"]
+metal = ["candle-core/metal", "candle-nn/metal", "candle-transformers/metal"]
 
 
 [build.env]
