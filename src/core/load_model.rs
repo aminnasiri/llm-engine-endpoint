@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use anyhow::Error as E;
 use candle_core::{Device, DType};
 use candle_nn::{Activation, VarBuilder};
-use candle_transformers::models::phi3::{Config, Model as Phi3};
+use candle_transformers::models::gemma::{Config, Model as Gemma};
 use hf_hub::{Repo, RepoType};
 use hf_hub::api::sync::{ApiBuilder, ApiRepo};
 use serde::{Deserialize, Deserializer};
@@ -84,25 +84,25 @@ pub fn initialise_model(token: String) -> anyhow::Result<AppState> {
     let filenames = hub_load_safe_tensors(&repo, "model.safetensors.index.json")?;
 
     let config = Config {
-        vocab_size: 32064,
-        hidden_act: Activation::Silu,
-        hidden_size: 3072,
-        intermediate_size: 8192,
-        num_hidden_layers: 32,
-        num_attention_heads: 32,
-        num_key_value_heads: 32,
-        rms_norm_eps: 1e-05,
+        attention_bias: false,
+        vocab_size: 256000,
+        hidden_act: Option::from(Activation::GeluPytorchTanh),
+        hidden_activation: Option::from(Activation::GeluPytorchTanh),
+        hidden_size: 3584,
+        intermediate_size: 14336,
+        num_hidden_layers: 42,
+        num_attention_heads: 16,
+        num_key_value_heads: 8,
+        rms_norm_eps: 1e-06,
         rope_theta: 10000.0,
-        bos_token_id: Some(1),
-        eos_token_id: Some(32000),
-        rope_scaling: None,
-        max_position_embeddings: 4096,
+        max_position_embeddings: 8192,
+        head_dim: 256
     };
 
     let model = {
         let dtype = DType::F32;
         let vb = unsafe { VarBuilder::from_mmaped_safetensors(&filenames, dtype, &device)? };
-        Phi3::new(&config, vb)?
+        Gemma::new(true, &config, vb)?
     };
 
     Ok((model, device, tokenizer, Some(0.7)).into())

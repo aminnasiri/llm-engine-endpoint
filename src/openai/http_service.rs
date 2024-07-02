@@ -2,13 +2,13 @@ use axum::extract::State;
 use axum::Json;
 use axum::response::IntoResponse;
 use candle_core::Device;
-use candle_transformers::models::phi3::Model as Phi3;
+use candle_transformers::models::gemma::Model as Gemma;
 use tokenizers::Tokenizer;
 use tracing::{debug, info};
 use crate::openai::http_entities::{AppState, CompletionsRequest, TextGeneration};
 
-impl From<(Phi3, Device, Tokenizer, Option<f64>)> for AppState {
-    fn from(e: (Phi3, Device, Tokenizer, Option<f64>)) -> Self {
+impl From<(Gemma, Device, Tokenizer, Option<f64>)> for AppState {
+    fn from(e: (Gemma, Device, Tokenizer, Option<f64>)) -> Self {
         Self {
             model: e.0,
             device: e.1,
