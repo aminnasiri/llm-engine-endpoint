@@ -12,7 +12,7 @@ candle-core = { version = "0.6.0"}
 candle-nn = { version = "0.6.0" }
 candle-transformers = { version = "0.6.0" }
 bindgen_cuda = { version = "0.1.1", optional = true }
-cudarc = { version = "0.11.4", features = ["std", "cublas", "cublaslt", "curand", "driver", "nvrtc", "f16", "cuda-version-from-build-system", "dynamic-linking"], default-features = false, optional = true }
+#cudarc = { version = "0.11.4", optional = true }
 
 hf-hub = "0.3.2"
 serde = { version = "1.0.203", features = ["derive"] }
@@ -27,8 +27,8 @@ tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 
 [features]
 default = ["candle-core/default", "candle-nn/default", "candle-transformers/default"]
-cuda = ["candle-core/cuda", "candle-nn/cuda", "candle-transformers/cuda", "dep:bindgen_cuda", "cudarc"]
-cudnn = ["candle-core/cudnn", "cudarc", "cudarc/cudnn"]
+cuda = ["candle-core/cuda", "candle-nn/cuda", "candle-transformers/cuda", "dep:bindgen_cuda"]
+cudnn = ["candle-core/cudnn"]
 accelerate = ["candle-core/accelerate", "candle-nn/accelerate", "candle-transformers/accelerate"]
 mkl = ["candle-core/mkl", "candle-nn/mkl", "candle-transformers/mkl"]
 metal = ["candle-core/metal", "candle-nn/metal", "candle-transformers/metal"]
