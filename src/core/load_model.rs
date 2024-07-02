@@ -66,12 +66,12 @@ struct Weightmaps {
 fn get_repo(token: String) -> anyhow::Result<ApiRepo> {
     let api = ApiBuilder::new().with_token(Some(token)).build()?;
 
-    let model_id = "microsoft/Phi-3-mini-4k-instruct".to_string();
+    let model_id = "google/gemma-2-9b".to_string();
 
     Ok(api.repo(Repo::with_revision(
         model_id,
         RepoType::Model,
-        "ff07dc01615f8113924aed013115ab2abd32115b".to_string(),
+        "9dfe7a4586b36564e96bbec0dad6b8ae0b70ad5e".to_string(),
     )))
 }
 
