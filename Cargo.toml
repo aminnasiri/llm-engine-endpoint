@@ -11,7 +11,7 @@ axum = "0.7.5"
 candle-core = { version = "0.5.1" }
 candle-nn = { version = "0.5.1" }
 candle-transformers = { version = "0.5.1" }
-cudarc = {version = "0.11.7", optional = true }
+cudarc = {git = "https://github.com/coreylowman/cudarc.git", optional = true }
 
 hf-hub = "0.3.2"
 serde = { version = "1.0.203", features = ["derive"] }
