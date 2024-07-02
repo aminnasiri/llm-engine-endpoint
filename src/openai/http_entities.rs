@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use tokenizers::Tokenizer;
 use tracing::{error, info};
 use crate::core::output_stream::TokenOutputStream;
-use candle_transformers::models::phi3::Model as Phi3;
+use candle_transformers::models::gemma::Model as Gemma;
 
 #[derive(Serialize, Deserialize)]
 pub struct CompletionsRequest {
@@ -83,14 +83,14 @@ impl Usage {
 
 #[derive(Clone)]
 pub struct AppState {
-    pub(crate) model: Phi3,
+    pub(crate) model: Gemma,
     pub(crate) device: Device,
     pub(crate) tokenizer: Tokenizer,
     pub(crate) temperature: Option<f64>,
 }
 
 pub struct TextGeneration {
-    model: Phi3,
+    model: Gemma,
     device: Device,
     tokenizer: TokenOutputStream,
     logits_processor: LogitsProcessor,
@@ -101,7 +101,7 @@ pub struct TextGeneration {
 impl TextGeneration {
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
-        model: Phi3,
+        model: Gemma,
         tokenizer: Tokenizer,
         seed: u64,
         _temp: Option<f64>,
