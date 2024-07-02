@@ -22,8 +22,7 @@ uuid = { version = "1.8.0", features = ["serde", "v4"] }
 tower-http = { version = "0.5.2", features = ["trace"] }
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
-shuttle-runtime = "0.46.0"
-core-graphics-types = "0.1.3"
+core-graphics-types = {version = "0.1.3", optional = true}
 
 [features]
 default = ["candle-core/default", "candle-nn/default", "candle-transformers/default"]
@@ -31,7 +30,7 @@ cuda = ["candle-core/cuda", "candle-nn/cuda", "candle-transformers/cuda", "candl
 cudnn = ["candle-core/cudnn", "cudarc/cudnn"]
 accelerate = ["candle-core/accelerate", "candle-nn/accelerate", "candle-transformers/accelerate"]
 mkl = ["candle-core/mkl", "candle-nn/mkl", "candle-transformers/mkl"]
-metal = ["candle-core/metal", "candle-nn/metal", "candle-transformers/metal"]
+metal = ["candle-core/metal", "candle-nn/metal", "candle-transformers/metal", "core-graphics-types"]
 
 
 [build.env]
