@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use anyhow::Error as E;
 use candle_core::{Device, DType};
 use candle_nn::{Activation, VarBuilder};
-use candle_transformers::models::gemma::{Config, Model as Gemma};
+use candle_transformers::models::phi3::{Config, Model as Phi3};
 use hf_hub::{Repo, RepoType};
 use hf_hub::api::sync::{ApiBuilder, ApiRepo};
 use serde::{Deserialize, Deserializer};
@@ -66,12 +66,12 @@ struct Weightmaps {
 fn get_repo(token: String) -> anyhow::Result<ApiRepo> {
     let api = ApiBuilder::new().with_token(Some(token)).build()?;
 
-    let model_id = "google/codegemma-7b-it".to_string();
+    let model_id = "microsoft/Phi-3-mini-4k-instruct".to_string();
 
     Ok(api.repo(Repo::with_revision(
         model_id,
         RepoType::Model,
-        "858526fb8767b0e828d33a36babe174899a81c32".to_string(),
+        "ff07dc01615f8113924aed013115ab2abd32115b".to_string(),
     )))
 }
 
@@ -84,25 +84,25 @@ pub fn initialise_model(token: String) -> anyhow::Result<AppState> {
     let filenames = hub_load_safe_tensors(&repo, "model.safetensors.index.json")?;
 
     let config = Config {
-        attention_bias: false,
-        vocab_size: 256000,
-        hidden_act: Option::from(Activation::Gelu),
-        hidden_activation: None,
+        vocab_size: 32064,
+        hidden_act: Activation::Silu,
         hidden_size: 3072,
-        intermediate_size: 24576,
-        num_hidden_layers: 28,
-        num_attention_heads: 16,
-        num_key_value_heads: 16,
-        rms_norm_eps: 1e-06,
+        intermediate_size: 8192,
+        num_hidden_layers: 32,
+        num_attention_heads: 32,
+        num_key_value_heads: 32,
+        rms_norm_eps: 1e-05,
         rope_theta: 10000.0,
-        max_position_embeddings: 8192,
-        head_dim: 256
+        bos_token_id: Some(1),
+        eos_token_id: Some(32000),
+        rope_scaling: None,
+        max_position_embeddings: 4096,
     };
 
     let model = {
         let dtype = DType::F32;
         let vb = unsafe { VarBuilder::from_mmaped_safetensors(&filenames, dtype, &device)? };
-        Gemma::new(true, &config, vb)?
+        Phi3::new(&config, vb)?
     };
 
     Ok((model, device, tokenizer, Some(0.7)).into())
