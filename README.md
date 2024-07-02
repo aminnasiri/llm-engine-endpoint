@@ -26,11 +26,11 @@ apt update && apt install nano && apt-get install -y curl libssl-dev pkg-config
 ssh-keygen -t ed25519 -C "amin@thinksky.com"
 ```
 
-path of keys : /workspace/.ssh/github
+path of keys : /root/.ssh/github
 
 copy public key to GitHub ssh key setting
 ```shell
-cat /workspace/.ssh/github
+cat /root/.ssh/github
 ```
 
 create a new ssh config file
@@ -43,7 +43,7 @@ copy these
 # Other github account: superman
 Host github.com
   HostName github.com
-  IdentityFile /workspace/.ssh/github
+  IdentityFile /root/.ssh/github
   IdentitiesOnly yes
 ```
 then touch ssh config file

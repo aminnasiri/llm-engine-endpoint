@@ -66,12 +66,12 @@ struct Weightmaps {
 fn get_repo(token: String) -> anyhow::Result<ApiRepo> {
     let api = ApiBuilder::new().with_token(Some(token)).build()?;
 
-    let model_id = "google/gemma-2-9b".to_string();
+    let model_id = "google/codegemma-7b-it".to_string();
 
     Ok(api.repo(Repo::with_revision(
         model_id,
         RepoType::Model,
-        "9dfe7a4586b36564e96bbec0dad6b8ae0b70ad5e".to_string(),
+        "858526fb8767b0e828d33a36babe174899a81c32".to_string(),
     )))
 }
 
@@ -86,13 +86,13 @@ pub fn initialise_model(token: String) -> anyhow::Result<AppState> {
     let config = Config {
         attention_bias: false,
         vocab_size: 256000,
-        hidden_act: Option::from(Activation::GeluPytorchTanh),
-        hidden_activation: Option::from(Activation::GeluPytorchTanh),
-        hidden_size: 3584,
-        intermediate_size: 14336,
-        num_hidden_layers: 42,
+        hidden_act: Option::from(Activation::Gelu),
+        hidden_activation: Option::from(Activation::Gelu),
+        hidden_size: 3072,
+        intermediate_size: 24576,
+        num_hidden_layers: 28,
         num_attention_heads: 16,
-        num_key_value_heads: 8,
+        num_key_value_heads: 16,
         rms_norm_eps: 1e-06,
         rope_theta: 10000.0,
         max_position_embeddings: 8192,
