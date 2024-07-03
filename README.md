@@ -30,7 +30,7 @@ path of keys : /root/.ssh/github
 
 copy public key to GitHub ssh key setting
 ```shell
-cat /root/.ssh/github
+cat /root/.ssh/github.pub
 ```
 
 create a new ssh config file
