@@ -73,4 +73,8 @@ export HF_TOKEN=xxx
 ```
 
 
+## Endpoint call
 
+```shell
+echo $RUNPOD_POD_ID
+```
