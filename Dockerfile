@@ -5,5 +5,6 @@ COPY llm-engine-endpoint .
 #RUN nvidia-smi --query-gpu=gpu_name,gpu_bus_id,vbios_version,compute_cap --format=csv
 
 USER 1000
+
 EXPOSE 8000
 ENTRYPOINT ["./llm-engine-endpoint"]
