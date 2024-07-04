@@ -1,4 +1,4 @@
-# llm-engine-service
+# llm-engine-endpoint
 
 ## Build in Metal device
 
@@ -54,12 +54,14 @@ touch ~/.ssh/config
 
 Fetch code on the machine
 ```shell
-git clone git@github.com:aminnasiri/llm-engine-service.git
+git clone git@github.com:aminnasiri/llm-engine-endpoint.git
 ```
 
 #### Install Rust
 ```shell
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
 ```
 
 touch Cargo config
