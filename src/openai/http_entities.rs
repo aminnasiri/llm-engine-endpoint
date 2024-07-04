@@ -1,8 +1,12 @@
+use std::process::{ExitCode, Termination};
+use std::time::Instant;
 use candle_core::{Device, DType, Tensor};
 use candle_transformers::generation::LogitsProcessor;
 use serde::{Deserialize, Serialize};
 use tokenizers::Tokenizer;
 use tracing::{error, info};
+use uuid::Uuid;
+
 use crate::core::output_stream::TokenOutputStream;
 use candle_transformers::models::phi3::Model as Phi3;
 
@@ -27,51 +31,17 @@ pub struct CompletionResponse {
     object: String,
     created: i64,
     model: String,
-    choices: Vec<Choice>,
-    usage: Usage,
 }
 
 impl CompletionResponse {
-    pub fn new(id: String, object: String, created: i64, model: String, choices: Vec<Choice>, usage: Usage) -> Self {
-        Self { id, object, created, model, choices, usage }
+    pub fn new(id: String, object: String, created: i64, model: String) -> Self {
+        Self { id, object, created, model}
     }
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct Choice {
-    text: String,
-    index: i64,
-    logprobs: Option<f64>,
-    finish_reason: String,
-}
-
-impl Choice {
-    pub fn new(text: String, index: i64, logprobs: Option<f64>, finish_reason: String) -> Self {
-        Self { text, index, logprobs, finish_reason }
-    }
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct Usage {
-    prompt_tokens: i64,
-    completion_tokens: i64,
-    total_tokens: i64,
-}
-
-impl Usage {
-    pub fn new(prompt_tokens: i64, completion_tokens: i64, total_tokens: i64) -> Self {
-        Self { prompt_tokens, completion_tokens, total_tokens }
-    }
-
-
-    pub fn prompt_tokens(&self) -> i64 {
-        self.prompt_tokens
-    }
-    pub fn completion_tokens(&self) -> i64 {
-        self.completion_tokens
-    }
-    pub fn total_tokens(&self) -> i64 {
-        self.total_tokens
+impl Termination for CompletionResponse {
+    fn report(self) -> ExitCode {
+        ExitCode::SUCCESS
     }
 }
 
@@ -122,7 +92,7 @@ impl TextGeneration {
         }
     }
 
-    pub(crate) fn run(mut self, prompt: String, sample_len: usize) -> String {
+    pub(crate) fn run(mut self, prompt: String, sample_len: usize) -> CompletionResponse {
         self.tokenizer.clear();
         let mut tokens = self
             .tokenizer
@@ -183,7 +153,9 @@ impl TextGeneration {
                 string.push_str(&t);
             }
         }
+        let id = Uuid::new_v4().to_string();
+        let create_time = Instant::now().elapsed().as_secs_f32() as i64;
 
-        string
+        CompletionResponse::new(id, string, create_time, "Phi-3".to_string())
     }
 }
